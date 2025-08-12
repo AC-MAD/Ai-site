@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chouifi AI - Efficiency, accelerated.</title>
+    <meta name="description" content="Making organizations exponentially more efficient with advanced AI solutions.">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="chouifi AI - Efficiency, accelerated.">
+    <meta property="og:description" content="Making organizations exponentially more efficient with advanced AI solutions.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="#">
+    <meta property="og:image" content="#">
+
+    <style>
+        /* CSS-Variablen für Theming */
+        :root {
+            --accent-red: #C51A4A;
+            --accent-red-hover: #A9163F;
+            --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 30px rgba(0,0,0,0.1);
+            --border-radius: 12px;
+        }
+
+        html[data-theme='light'] {
+            --bg: #F9F9F9;
+            --text: #1a1a1a;
+            --text-muted: #555555;
+            --card-bg: #FFFFFF;
+            --border-color: #EAEAEA;
+        }
+
+        html[data-theme='dark'] {
+            --bg: #111111;
+            --text: #F0F0F0;
+            --text-muted: #999999;
+            --card-bg: #1D1D1D;
+            --border-color: #2D2D2D;
+        }
+
+        /* Globale Stile & Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        body.no-scroll {
+            overflow: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); }
+        h2 { font-size: clamp(2rem, 4vw, 3rem); text-align: center; margin-bottom: 60px; }
+        h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+        p { color: var(--text-muted); margin-bottom: 1rem; }
+        a { color: var(--accent-red); text-decoration: none; }
+
+        /* Animationen */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .hero-title-animation {
+            animation: text-focus-in 1s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+        }
+
+        @keyframes text-focus-in {
+            0% {
+                filter: blur(12px);
+                opacity: 0;
+            }
+            100% {
+                filter: blur(0px);
+                opacity: 1;
+            }
+        }
+
+        /* Header & Navigation */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 0;
+            background-color: transparent;
+            transition: var(--transition-smooth);
+        }
+        .main-header.scrolled {
+            background-color: color-mix(in srgb, var(--card-bg) 95%, transparent);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-link { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 1.25rem; }
+        .logo-svg { width: 32px; height: 32px; }
+        .nav-links { display: none; }
+        .nav-actions { display: flex; align-items: center; gap: 1rem; }
+        .theme-toggle, .mobile-nav-toggle { background: none; border: none; cursor: pointer; padding: 8px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .theme-toggle:hover, .mobile-nav-toggle:hover { background-color: var(--border-color); }
+        .theme-toggle svg, .mobile-nav-toggle svg { width: 24px; height: 24px; stroke: var(--text); }
+        .mobile-nav-toggle { display: block; }
+        .nav-links-mobile {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            transform: translateY(-100%);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            z-index: 999;
+        }
+        .nav-links-mobile.active { transform: translateY(0); }
+        .nav-links-mobile a { font-size: 1.5rem; font-weight: 600; }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            border: 2px solid transparent;
+        }
+        .btn-primary {
+            background-color: var(--accent-red);
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background-color: var(--accent-red-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        .btn-secondary {
+            background-color: var(--card-bg);
+            color: var(--text);
+            border-color: var(--border-color);
+        }
+        .btn-secondary:hover {
+            background-color: var(--border-color);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        #hero {
+            padding-top: 160px;
+            padding-bottom: 120px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        #hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        .hero-content { max-width: 800px; margin: 0 auto; }
+        .hero-content h1 { margin-bottom: 1rem; }
+        .hero-content .tagline { font-size: 1.25rem; max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); }
+        .hero-actions { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+
+        /* Solutions Section */
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        .solution-card {
+            background-color: var(--card-bg);
+            padding: 2.5rem 2rem;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-smooth), opacity 0.5s, transform 0.5s;
+        }
+        .solution-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        .solution-card .icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1.5rem;
+            color: var(--accent-red);
+        }
+
+        /* Results Section */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+        .kpi-card {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+        .kpi-value {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--accent-red);
+            line-height: 1;
+        }
+        .kpi-label {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+        .kpi-chart-container {
+            width: 100px;
+            height: 100px;
+            margin: 1.5rem auto 0;
+        }
+
+        /* Case Studies Section */
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .case-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        .case-content {
+            padding: 2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .case-content h3 { margin-top: 0; }
+        .case-content .btn { margin-top: auto; }
+
+        /* Process Section */
+        .process-timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .process-timeline::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background-color: var(--border-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1px;
+        }
+        .process-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+        }
+        .process-item:nth-child(odd) { left: 0; }
+        .process-item:nth-child(even) { left: 50%; }
+        .process-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: var(--bg);
+            border: 4px solid var(--accent-red);
+            top: 25px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .process-item:nth-child(even)::after { left: -10px; }
+        .process-content {
+            padding: 20px 30px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+        }
+
+        /* Footer */
+        .main-footer {
+            background-color: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 60px 0;
+            text-align: center;
+        }
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .footer-logo { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 1.5rem; }
+        .social-links { display: flex; gap: 1.5rem; }
+        .social-links a svg { width: 24px; height: 24px; color: var(--text-muted); transition: var(--transition-smooth); }
+        .social-links a:hover svg { color: var(--accent-red); transform: scale(1.1); }
+        .footer-links { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+        .footer-links a { color: var(--text-muted); }
+        .copyright { font-size: 0.9rem; color: var(--text-muted); }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+        .modal-close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        .modal-close-btn svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--text-muted);
+        }
+        .modal-close-btn:hover svg {
+            stroke: var(--text);
+        }
+        .modal-body h3 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Accessibility & Media Queries */
+        :focus-visible {
+            outline: 2px solid var(--accent-red);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        @media (min-width: 768px) {
+            .mobile-nav-toggle { display: none; }
+            .nav-links { display: flex; align-items: center; gap: 2rem; }
+            .nav-links a { font-weight: 500; position: relative; }
+            .nav-links a::after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 2px;
+                bottom: -5px;
+                left: 50%;
+                transform: translateX(-50%);
+                background-color: var(--accent-red);
+                transition: width 0.3s ease;
+            }
+            .nav-links a:hover::after { width: 100%; }
+        }
+        
+        @media (max-width: 767px) {
+            .process-timeline::after {
+                left: 31px;
+            }
+            .process-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            .process-item:nth-child(odd) { left: 0; }
+            .process-item:nth-child(even) { left: 0; }
+            .process-item::after {
+                left: 21px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+
+    <header class="main-header" id="main-header">
+        <div class="container header-content">
+            <a href="#" class="logo-link" aria-label="chouifi AI Homepage">
+                <svg class="logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50 0L100 28.87V86.6L50 115.47L0 86.6V28.87L50 0Z" fill="var(--accent-red)"/>
+                    <path d="M50 16.67L83.33 35.56V73.33L50 92.22L16.67 73.33V35.56L50 16.67Z" stroke="var(--bg)" stroke-width="8"/>
+                </svg>
+                <span style="font-family: 'Segoe UI', sans-serif; font-size: 1.4rem; font-weight: 700; letter-spacing: 1px; color: var(--accent-red); text-transform: uppercase;">
+    Chouifi AI
+</span>
+
+            </a>
+            <nav class="nav-links" aria-label="Main navigation">
+                <a href="#solutions">Lösungen</a>
+                <a href="#results">Ergebnisse</a>
+                <a href="#cases">Fallstudien</a>
+                <a href="#process">Prozess</a>
+            </nav>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
+                    <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    <svg id="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                </button>
+                <button class="mobile-nav-toggle" id="mobile-nav-toggle" aria-label="Open navigation menu" aria-expanded="false">
+                    <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    <svg id="close-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav-links-mobile" id="mobile-nav-menu">
+        <a href="#solutions">Lösungen</a>
+        <a href="#results">Ergebnisse</a>
+        <a href="#cases">Fallstudien</a>
+        <a href="#process">Prozess</a>
+    </nav>
+
+    <main>
+        <section id="hero">
+            <canvas id="hero-canvas"></canvas>
+            <div class="container hero-content">
+                <h1 class="hero-title-animation">AI — Efficiency, accelerated.</h1>
+                <p class="tagline fade-in-up" style="transition-delay: 0.2s;">Making organizations exponentially more efficient with advanced AI solutions.</p>
+                <div class="hero-actions fade-in-up" style="transition-delay: 0.4s;">
+                    <a href="mailto:support@chouifi.com?subject=Interest%20in%20Chouifi%20AI" class="btn btn-primary">Kontakt aufnehmen</a>
+                    <a href="#solutions" class="btn btn-secondary">Mehr erfahren</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="solutions" class="fade-in-up">
+            <div class="container">
+                <h2>Maßgeschneiderte KI-Lösungen</h2>
+                <div class="solutions-grid">
+                    <div class="solution-card fade-in-up">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+                        <h3>Datenanalyse &amp; Insights</h3>
+                        <p>Verwandeln Sie Rohdaten in strategische Vorteile. Unsere KI-Modelle erkennen Muster und Prognosen, die menschlicher Analyse entgehen.</p>
+                    </div>
+                    <div class="solution-card fade-in-up" style="transition-delay: 0.2s;">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        <h3>Prozessautomatisierung</h3>
+                        <p>Automatisieren Sie repetitive Aufgaben und komplexe Workflows, um Fehler zu reduzieren und die Effizienz Ihrer Teams zu maximieren.</p>
+                    </div>
+                    <div class="solution-card fade-in-up" style="transition-delay: 0.4s;">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+                        <h3>Natural Language Processing</h3>
+                        <p>Implementieren Sie fortschrittliche Chatbots, Textanalysen und intelligente Dokumentenverarbeitung für eine bessere Kundeninteraktion.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="results" class="fade-in-up">
+            <div class="container">
+                <h2>Messbare Ergebnisse</h2>
+                <div class="results-grid">
+                    <div class="kpi-card fade-in-up">
+                        <div class="kpi-value" data-target="34">0%</div>
+                        <div class="kpi-label">Effizienzsteigerung</div>
+                        <div class="kpi-chart-container">
+                            <canvas class="kpi-chart" data-value="34" width="100" height="100"></canvas>
+                        </div>
+                    </div>
+                    <div class="kpi-card fade-in-up" style="transition-delay: 0.2s;">
+                        <div class="kpi-value" data-target="28">0%</div>
+                        <div class="kpi-label">Kostensenkung</div>
+                        <div class="kpi-chart-container">
+                            <canvas class="kpi-chart" data-value="28" width="100" height="100"></canvas>
+                        </div>
+                    </div>
+                    <div class="kpi-card fade-in-up" style="transition-delay: 0.4s;">
+                        <div class="kpi-value" data-target="42">0%</div>
+                        <div class="kpi-label">Produktivitätszuwachs</div>
+                        <div class="kpi-chart-container">
+                            <canvas class="kpi-chart" data-value="42" width="100" height="100"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 2rem; font-size: 0.9rem;">
+                    Quelle: <a href="#" target="_blank" rel="noopener noreferrer">Interne Analyse, aggregierte Kundendaten 2023-2024</a>
+                </p>
+            </div>
+        </section>
+
+        <section id="cases" class="fade-in-up">
+            <div class="container">
+                <h2>Aus der Praxis</h2>
+                <div class="cases-grid">
+                    <div class="case-card fade-in-up">
+                        <div class="case-content">
+                            <h3>Logistik-Optimierung</h3>
+                            <p>Ein führendes Logistikunternehmen reduzierte die Lieferzeiten um 18% durch KI-gestützte Routenplanung und Lagerverwaltung.</p>
+                            <button class="btn btn-secondary case-modal-trigger" data-case="logistics">Mehr anzeigen</button>
+                        </div>
+                    </div>
+                    <div class="case-card fade-in-up" style="transition-delay: 0.2s;">
+                        <div class="case-content">
+                            <h3>Finanz-Forecasting</h3>
+                            <p>Eine Investmentfirma verbesserte die Genauigkeit ihrer Marktprognosen um 25%, was zu signifikant höheren Renditen führte.</p>
+                            <button class="btn btn-secondary case-modal-trigger" data-case="finance">Mehr anzeigen</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="process" class="fade-in-up">
+            <div class="container">
+                <h2>Unser Prozess</h2>
+                <div class="process-timeline">
+                    <div class="process-item fade-in-up">
+                        <div class="process-content">
+                            <h3>1. Analyse & Strategie</h3>
+                            <p>Wir tauchen tief in Ihre Geschäftsprozesse ein, um die größten Potenziale für KI-Anwendungen zu identifizieren.</p>
+                        </div>
+                    </div>
+                    <div class="process-item fade-in-up">
+                        <div class="process-content">
+                            <h3>2. Entwicklung & Prototyping</h3>
+                            <p>Entwicklung eines maßgeschneiderten KI-Modells und eines interaktiven Prototyps zur Validierung des Konzepts.</p>
+                        </div>
+                    </div>
+                    <div class="process-item fade-in-up">
+                        <div class="process-content">
+                            <h3>3. Implementierung & Integration</h3>
+                            <p>Nahtlose Integration der KI-Lösung in Ihre bestehende IT-Infrastruktur mit minimaler Unterbrechung.</p>
+                        </div>
+                    </div>
+                    <div class="process-item fade-in-up">
+                        <div class="process-content">
+                            <h3>4. Optimierung & Skalierung</h3>
+                            <p>Kontinuierliches Monitoring und Optimierung der Modelle, um langfristig maximale Performance sicherzustellen.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container footer-content">
+            <div class="footer-logo">
+                <svg class="logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50 0L100 28.87V86.6L50 115.47L0 86.6V28.87L50 0Z" fill="var(--accent-red)"/>
+                    <path d="M50 16.67L83.33 35.56V73.33L50 92.22L16.67 73.33V35.56L50 16.67Z" stroke="var(--bg)" stroke-width="8"/>
+                </svg>
+                <span>chouifi AI</span>
+            </div>
+            <p>Gegründet von <strong>Ayoub Chouifi</strong> — CEO & Founder.</p>
+            <div class="social-links">
+                <a href="#" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
+                <a href="#" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></a>
+                <a href="mailto:support@chouifi.com" aria-label="Email"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a>
+            </div>
+            <div class="footer-links">
+                <a href="#">Impressum</a>
+                <a href="#">Datenschutz</a>
+            </div>
+            <p class="copyright">&copy; <span id="copyright-year"></span> chouifi AI. Alle Rechte vorbehalten.</p>
+        </div>
+    </footer>
+
+    <div class="modal-overlay" id="case-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-content">
+            <button class="modal-close-btn" id="modal-close-btn" aria-label="Close modal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <div class="modal-body" id="modal-body">
+                <h3 id="modal-title">Case Study Details</h3>
+                <p id="modal-text">Details werden geladen...</p>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+    (() => {
+        // Zentrales Datenobjekt für einfachen Austausch
+        const DATA = {
+            kpis: {
+                efficiencyIncrease: 34,
+                costReduction: 28,
+                productivityBoost: 42,
+            },
+            caseStudies: {
+                logistics: {
+                    title: "Logistik-Optimierung für GlobalTrans",
+                    details: "Durch die Implementierung unseres KI-Systems 'PathFinder' konnte GlobalTrans seine Lieferketten in Echtzeit analysieren. Das System optimiert Routen basierend auf Verkehr, Wetter und Lieferprioritäten. Dies führte zu einer Reduzierung der durchschnittlichen Lieferzeit um 18% und einer Senkung der Treibstoffkosten um 12% im ersten Quartal. Die Kundenzufriedenheit stieg messbar an."
+                },
+                finance: {
+                    title: "Prädiktive Analysen für Alpha Investments",
+                    details: "Alpha Investments nutzte unser 'MarketMind' KI-Modell, um komplexe Marktdaten zu analysieren und hochpräzise Prognosen zu erstellen. Das Modell verarbeitet Nachrichten, soziale Medien und historische Daten, um Trends vorherzusagen. Die Genauigkeit der Vorhersagen verbesserte sich um 25%, was dem Unternehmen ermöglichte, sein Portfolio proaktiv anzupassen und die Rendite um 8% über dem Branchendurchschnitt zu steigern."
+                }
+            },
+            themeColors: {
+                light: {
+                    accent: '#C51A4A',
+                    background: '#EAEAEA'
+                },
+                dark: {
+                    accent: '#C51A4A',
+                    background: '#2D2D2D'
+                }
+            }
+        };
+
+        // DOM-Elemente
+        const doc = document.documentElement;
+        const themeToggle = document.getElementById('theme-toggle');
+        const lightIcon = document.getElementById('theme-icon-light');
+        const darkIcon = document.getElementById('theme-icon-dark');
+        const header = document.getElementById('main-header');
+        const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+        const mobileNavMenu = document.getElementById('mobile-nav-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+        const modal = document.getElementById('case-modal');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        const modalTitle = document.getElementById('modal-title');
+        const modalText = document.getElementById('modal-text');
+        const caseTriggers = document.querySelectorAll('.case-modal-trigger');
+        const kpiElements = document.querySelectorAll('.kpi-value');
+        const kpiCharts = document.querySelectorAll('.kpi-chart');
+        const heroCanvas = document.getElementById('hero-canvas');
+        const animatedElements = document.querySelectorAll('.fade-in-up');
+
+        // --- Theme Management ---
+        const applyTheme = (theme) => {
+            doc.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (theme === 'dark') {
+                lightIcon.style.display = 'none';
+                darkIcon.style.display = 'block';
+            } else {
+                lightIcon.style.display = 'block';
+                darkIcon.style.display = 'none';
+            }
+            // Re-draw charts on theme change
+            kpiCharts.forEach(chart => {
+                const value = parseInt(chart.getAttribute('data-value'));
+                drawRadialChart(chart, value);
+            });
+        };
+
+        const toggleTheme = () => {
+            const currentTheme = doc.getAttribute('data-theme');
+            applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+        };
+
+        const initTheme = () => {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            applyTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
+        };
+
+        // --- Header Scroll Effekt ---
+        const handleScroll = () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        };
+
+        // --- Mobile Navigation ---
+        const toggleMobileNav = () => {
+            const isActive = mobileNavMenu.classList.toggle('active');
+            document.body.classList.toggle('no-scroll', isActive);
+            mobileNavToggle.setAttribute('aria-expanded', isActive);
+            menuIcon.style.display = isActive ? 'none' : 'block';
+            closeIcon.style.display = isActive ? 'block' : 'none';
+        };
+        
+        const closeMobileNav = () => {
+            if (mobileNavMenu.classList.contains('active')) {
+                toggleMobileNav();
+            }
+        };
+
+        // --- Modal ---
+        const openModal = (caseKey) => {
+            const caseData = DATA.caseStudies[caseKey];
+            if (!caseData) return;
+            modalTitle.textContent = caseData.title;
+            modalText.textContent = caseData.details;
+            modal.classList.add('active');
+            document.body.classList.add('no-scroll');
+            modalCloseBtn.focus();
+        };
+
+        const closeModal = () => {
+            modal.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+        };
+
+        // --- Animierte Zähler & Charts ---
+        const animateValue = (el, start, end, duration) => {
+            if (start === end) return;
+            const range = end - start;
+            let current = start;
+            const increment = end > start ? 1 : -1;
+            const stepTime = Math.abs(Math.floor(duration / range));
+            const timer = setInterval(() => {
+                current += increment;
+                el.textContent = current + '%';
+                if (current == end) {
+                    clearInterval(timer);
+                }
+            }, stepTime);
+        };
+
+        const drawRadialChart = (canvas, percentage) => {
+            const ctx = canvas.getContext('2d');
+            const size = canvas.width;
+            const center = size / 2;
+            const radius = size / 2 - 10;
+            const lineWidth = 8;
+            const endAngle = (percentage / 100) * 2 * Math.PI - Math.PI / 2;
+            const theme = doc.getAttribute('data-theme');
+            const colors = DATA.themeColors[theme];
+
+            ctx.clearRect(0, 0, size, size);
+
+            // Background circle
+            ctx.beginPath();
+            ctx.arc(center, center, radius, 0, 2 * Math.PI);
+            ctx.strokeStyle = colors.background;
+            ctx.lineWidth = lineWidth;
+            ctx.stroke();
+
+            // Foreground arc
+            ctx.beginPath();
+            ctx.arc(center, center, radius, -Math.PI / 2, endAngle);
+            ctx.strokeStyle = colors.accent;
+            ctx.lineWidth = lineWidth;
+            ctx.lineCap = 'round';
+            ctx.stroke();
+        };
+        
+        const handleIntersection = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+
+                    if (entry.target.classList.contains('kpi-value')) {
+                        const targetValue = parseInt(entry.target.getAttribute('data-target'));
+                        animateValue(entry.target, 0, targetValue, 1500);
+                    }
+                    if (entry.target.classList.contains('kpi-chart')) {
+                        const value = parseInt(entry.target.getAttribute('data-value'));
+                        drawRadialChart(entry.target, value);
+                    }
+                    observer.unobserve(entry.target);
+                }
+            });
+        };
+
+        // --- Hero Canvas Animation ---
+        const setupHeroCanvas = () => {
+            if (!heroCanvas) return;
+            const ctx = heroCanvas.getContext('2d');
+            let particles = [];
+            const particleCount = 50;
+
+            const resizeCanvas = () => {
+                heroCanvas.width = heroCanvas.offsetWidth;
+                heroCanvas.height = heroCanvas.offsetHeight;
+            };
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * heroCanvas.width;
+                    this.y = Math.random() * heroCanvas.height;
+                    this.size = Math.random() * 2 + 1;
+                    this.speedX = Math.random() * 0.5 - 0.25;
+                    this.speedY = Math.random() * 0.5 - 0.25;
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+
+                    if (this.x < 0 || this.x > heroCanvas.width) {
+                        this.x = Math.random() * heroCanvas.width;
+                    }
+                    if (this.y < 0 || this.y > heroCanvas.height) {
+                         this.y = Math.random() * heroCanvas.height;
+                    }
+                }
+                draw() {
+                    ctx.fillStyle = getComputedStyle(doc).getPropertyValue('--accent-red').trim();
+                    ctx.globalAlpha = 0.5;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            const initParticles = () => {
+                particles = [];
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle());
+                }
+            };
+
+            const animate = () => {
+                ctx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+                }
+                requestAnimationFrame(animate);
+            };
+
+            window.addEventListener('resize', () => {
+                resizeCanvas();
+                initParticles();
+            });
+            
+            resizeCanvas();
+            initParticles();
+            animate();
+        };
+
+        // --- Event Listeners ---
+        const addEventListeners = () => {
+            themeToggle.addEventListener('click', toggleTheme);
+            window.addEventListener('scroll', handleScroll, { passive: true });
+            mobileNavToggle.addEventListener('click', toggleMobileNav);
+            mobileNavMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', closeMobileNav);
+            });
+
+            caseTriggers.forEach(trigger => {
+                trigger.addEventListener('click', () => openModal(trigger.dataset.case));
+            });
+            modalCloseBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    closeModal();
+                }
+            });
+            
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+            const observer = new IntersectionObserver(handleIntersection, observerOptions);
+            
+            animatedElements.forEach(el => observer.observe(el));
+            kpiElements.forEach(el => observer.observe(el));
+            kpiCharts.forEach(chart => observer.observe(chart));
+        };
+
+        // --- Initialisierung ---
+        const init = () => {
+            document.getElementById('copyright-year').textContent = new Date().getFullYear();
+            initTheme();
+            addEventListeners();
+            setupHeroCanvas();
+            // Trigger animations for elements already in view on load
+            setTimeout(() => {
+                 document.querySelectorAll('.fade-in-up, .hero-actions').forEach(el => el.classList.add('is-visible'));
+            }, 100);
+        };
+
+        // Start der Anwendung
+        document.addEventListener('DOMContentLoaded', init);
+
+    })();
+    </script>
+
+</body>
+</html>
